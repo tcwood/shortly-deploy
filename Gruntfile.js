@@ -7,9 +7,13 @@ module.exports = function(grunt) {
       options: {
         separator: ';\n' 
       },
-      dist: {
+      client: {
         src: ['public/client/*.js'],
-        dest: 'public/dist/build.js'
+        dest: 'public/dist/client.js'
+      },
+      lib: {
+        src: ['public/lib/*.js'],
+        dest: 'public/dist/lib.js'
       }
     },
 
@@ -29,6 +33,12 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      target: {
+        files: {
+          'public/dist/client.min.js': ['public/dist/client.js'],
+          'public/dist/lib.min.js': ['public/dist/lib.js'] 
+        }
+      }
     },
 
     eslint: {
@@ -38,6 +48,11 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      target: {
+        files: {
+          'public/dist/style.min.js': ['public/style.css']
+        }
+      }
     },
 
     watch: {
@@ -59,6 +74,10 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
+        command: 'git push live master'
+      },
+      commit: {
+        command: 'git add . && git commit'
       }
     },
   });
@@ -73,7 +92,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
 
   grunt.registerTask('server-dev', function (target) {
-    grunt.task.run([ 'nodemon', 'watch' ]);
+    grunt.task.run([
+      'nodemon', 'watch'
+    ]);
   });
 
   ////////////////////////////////////////////////////
@@ -85,19 +106,22 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    
   ]);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
-      // add your production server task here
+      grunt.task.run([
+        'shell:prodServer'
+      ]);
     } else {
-      grunt.task.run([ 'server-dev' ]);
+      grunt.task.run([
+        'server-dev'
+      ]);
     }
   });
 
   grunt.registerTask('deploy', [
-    'concat'
+    'concat', 'uglify', 'cssmin'
   ]);
-
-
 };

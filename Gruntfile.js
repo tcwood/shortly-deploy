@@ -43,7 +43,7 @@ module.exports = function(grunt) {
 
     eslint: {
       target: [
-        // Add list of files to lint here
+        'public/client/*.js' 
       ]
     },
 
@@ -71,7 +71,7 @@ module.exports = function(grunt) {
         tasks: ['cssmin']
       }
     },
-    
+
     clean: ['public/dist/client.js', 'public/dist/lib.js'],
 
     shell: {
@@ -135,6 +135,6 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('deploy', [
-    'concat', 'uglify', 'cssmin', 'clean'
+    'eslint', 'concat', 'uglify', 'cssmin', 'clean'
   ]);
 };

@@ -131,7 +131,7 @@ module.exports = function(grunt) {
   grunt.registerTask('deploy', function(n) {
     if (grunt.option('prod')) {
       grunt.task.run([
-        'eslint', 'build', 'test', 'github', 'push'
+        'eslint', 'build', 'test', 'shell:github', 'push'
       ]);
     } else {
       grunt.task.run([

@@ -78,6 +78,9 @@ module.exports = function(grunt) {
       prodServer: {
         command: 'git push live master'
       },
+      github: {
+        command: 'git push origin master'
+      },
       commit: {
         command: 'git add . && git commit'
       },
@@ -128,7 +131,7 @@ module.exports = function(grunt) {
   grunt.registerTask('deploy', function(n) {
     if (grunt.option('prod')) {
       grunt.task.run([
-        'eslint', 'build', 'test', 'push'
+        'eslint', 'build', 'test', 'github', 'push'
       ]);
     } else {
       grunt.task.run([

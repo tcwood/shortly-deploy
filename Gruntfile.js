@@ -97,6 +97,10 @@ module.exports = function(grunt) {
     ]);
   });
 
+  grunt.registerTask('commit', function(target) {
+    grunt.task.run('shell:commit');
+  });
+
   ////////////////////////////////////////////////////
   // Main grunt tasks
   ////////////////////////////////////////////////////

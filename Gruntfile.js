@@ -71,6 +71,8 @@ module.exports = function(grunt) {
         tasks: ['cssmin']
       }
     },
+    
+    clean: ['public/dist/client.js', 'public/dist/lib.js'],
 
     shell: {
       prodServer: {
@@ -90,6 +92,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   grunt.registerTask('server-dev', function (target) {
     grunt.task.run([
@@ -99,6 +102,12 @@ module.exports = function(grunt) {
 
   grunt.registerTask('commit', function(target) {
     grunt.task.run('shell:commit');
+  });
+
+  grunt.registerTask('push', function(target) {
+    grunt.task.run([
+      'shell:prodServer'
+    ]);
   });
 
   ////////////////////////////////////////////////////
@@ -116,7 +125,7 @@ module.exports = function(grunt) {
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
       grunt.task.run([
-        'shell:prodServer'
+        // add your production server task here
       ]);
     } else {
       grunt.task.run([
@@ -126,6 +135,6 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('deploy', [
-    'concat', 'uglify', 'cssmin'
+    'concat', 'uglify', 'cssmin', 'clean'
   ]);
 };

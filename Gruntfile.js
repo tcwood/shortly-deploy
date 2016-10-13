@@ -80,6 +80,9 @@ module.exports = function(grunt) {
       },
       commit: {
         command: 'git add . && git commit'
+      },
+      kill: {
+        command: 'kill -kill `lsof -t -i tcp:4568`'
       }
     },
   });
@@ -114,27 +117,23 @@ module.exports = function(grunt) {
   // Main grunt tasks
   ////////////////////////////////////////////////////
 
+  grunt.registerTask('build', [
+    'concat', 'uglify', 'cssmin', 'clean'
+  ]);
+
   grunt.registerTask('test', [
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', [
-    
-  ]);
-
-  grunt.registerTask('upload', function(n) {
+  grunt.registerTask('deploy', function(n) {
     if (grunt.option('prod')) {
       grunt.task.run([
-        // add your production server task here
+        'eslint', 'build', 'test', 'push'
       ]);
     } else {
       grunt.task.run([
-        'server-dev'
+        'eslint', 'test', 'server-dev'
       ]);
     }
   });
-
-  grunt.registerTask('deploy', [
-    'eslint', 'concat', 'uglify', 'cssmin', 'clean'
-  ]);
 };

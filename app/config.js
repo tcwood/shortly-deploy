@@ -37,8 +37,8 @@ var usersSchema = new Schema({
 });
 
 usersSchema.pre('save', function(next, data) {
-  console.log('data', data);
-  // this.hashPassword();
+  console.log('this in presave', this);
+  this.hashPassword().bind(this);
   next();
 });
 

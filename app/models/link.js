@@ -1,19 +1,13 @@
-var db = require('../config');
-var crypto = require('crypto');
+// var urlsSchema = require('../config').urlsSchema;
+// var mongoose = require('mongoose');
+// var bcrypt = require('bcrypt-nodejs');
 
-var Link = db.Model.extend({
-  tableName: 'urls',
-  hasTimestamps: true,
-  defaults: {
-    visits: 0
-  },
-  initialize: function() {
-    this.on('creating', function(model, attrs, options) {
-      var shasum = crypto.createHash('sha1');
-      shasum.update(model.get('url'));
-      model.set('code', shasum.digest('hex').slice(0, 5));
-    });
-  }
-});
+// urlsSchema.methods.initialize = function() {
+//   this.on('init', function(model) {
+//     var shasum = crypto.createHash('sha1');
+//     shasum.update(model.url);
+//     model.code = shasum.digest('hex').slice(0, 5);
+//   });
+// };
 
-module.exports = Link;
+// exports = mongoose.model('Link', urlsSchema);
